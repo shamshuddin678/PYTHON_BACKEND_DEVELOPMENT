@@ -1,0 +1,177 @@
+
+
+### Flow Chart
+
+```text
+User fills form
+       ↓
+views.py
+       ↓
+models.py
+       ↓
+Database
+```
+
+---
+
+## Step 1: User fills the form
+
+Suppose the user enters:
+
+```text
+Name : Shamshu
+Email : shamshu@gmail.com
+Phone : 9876543210
+Message : I want Chocolate Ice Cream
+```
+
+and clicks **Submit**.
+
+---
+
+## Step 2: views.py receives data
+
+```python
+def contact(request):
+    if request.method == "POST":
+        name = request.POST.get('name')
+        email = request.POST.get('email')
+        phone = request.POST.get('phone')
+        desc = request.POST.get('desc')
+```
+
+Here:
+
+```python
+request.POST.get('name')
+```
+
+gets:
+
+```text
+Shamshu
+```
+
+from the form.
+
+So now:
+
+```python
+name = "Shamshu"
+email = "shamshu@gmail.com"
+phone = "9876543210"
+desc = "I want Chocolate Ice Cream"
+```
+
+---
+
+## Step 3: Send data to models.py
+
+In `views.py`:
+
+```python
+contact = Contact(
+    name=name,
+    email=email,
+    phone=phone,
+    desc=desc
+)
+
+contact.save()
+```
+
+Here Django uses the `Contact` model.
+
+---
+
+## Step 4: models.py structure
+
+```python
+class Contact(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone = models.CharField(max_length=10)
+    desc = models.TextField()
+```
+
+This tells Django:
+
+```text
+Create a table with 4 columns:
+name
+email
+phone
+desc
+```
+
+---
+
+## Step 5: Save in Database
+
+After:
+
+```python
+contact.save()
+```
+
+Data goes into SQLite/MySQL.
+
+Database table:
+
+| id | name    | email                                         | phone      | desc                       |
+| -- | ------- | --------------------------------------------- | ---------- | -------------------------- |
+| 1  | Shamshu | [shamshu@gmail.com](mailto:shamshu@gmail.com) | 9876543210 | I want Chocolate Ice Cream |
+
+---
+
+## Real Life Analogy
+
+Imagine a school.
+
+### Form
+
+Student fills admission form.
+
+```text
+Name: Shamshu
+Branch: CSE
+```
+
+↓
+
+### views.py
+
+Teacher collects the form.
+
+↓
+
+### models.py
+
+Teacher checks the format:
+
+```text
+Name → Text
+Branch → Text
+```
+
+↓
+
+### Database
+
+Office stores the record permanently.
+
+---
+
+### Easy Memory Trick
+
+```text
+HTML Form
+   ↓
+views.py  → Collect data
+   ↓
+models.py → Define table structure
+   ↓
+Database  → Store data permanently
+```
+
+This is the most common Django flow you'll use when building login forms, contact forms, registration forms, product forms, etc.

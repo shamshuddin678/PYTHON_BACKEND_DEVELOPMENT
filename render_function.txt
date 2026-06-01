@@ -1,0 +1,11 @@
+Browser
+   ↓
+urls.py
+   ↓
+views.py
+   ↓
+render()
+   ↓
+templates/index.html
+   ↓
+Browser
